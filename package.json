@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "This project requires you to create an asynchronous web app that uses Web API and user data to dynamically update the UI.",
   "main": "server.js",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
@@ -20,6 +21,9 @@
   "dependencies": {
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",
-    "express": "^4.17.3"
+    "dotenv": "^16.0.3",
+    "env": "^0.0.2",
+    "express": "^4.17.3",
+    "node-fetch": "^2.6.7"
   }
 }

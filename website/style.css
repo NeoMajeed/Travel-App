@@ -14,22 +14,52 @@ body{
     width: 100%;
 }
 
-#app{
-    display: grid;
-    grid-auto-rows: minmax(150px, auto);
+.app{
+    display: inline-block;
+    perspective: 1000px;
+    position: relative;
     background: #ffced1;
     color: #333;
-    justify-content: center;
-    grid-gap: 1em;
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
     font-weight: 600;
     border-radius: 11px;
     padding: 0 22px;
     width: 450px;
-    height: 84%;
+    height: 60%;
+    margin: auto;
+    transition-duration: 0.6s;
+    transition-timing-function: ease-in-out;
+    transform-style: preserve-3d;
 }
 
+.app .back ,
+.app .front{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    flex-direction: column;
+    padding: 10px;
+    transform: rotateX(0deg);
+}
+
+.app .front{
+    z-index: 3;
+}
+
+.app .back{
+    transform: rotateY(-180deg);
+}
+
+.flip{
+    transform: rotateY(180deg);
+}
 
 .entry{
     background: rgba(59, 74, 107, .4);
@@ -40,6 +70,23 @@ body{
     align-self: center;
     justify-self: center;
     font-size: 2em;
+}
+
+.holder{
+    width: 100%;
+    height: 20%;
+    font-size: 1.2em;
+}
+
+.rmv{
+    top: 0;
+    left: 0;
+    padding: 10px;
+    font-size: 0.5em;
+    cursor: pointer;
+    color: #333;
+    transition: 0.3s;
+
 }
 
 /*  Basic Styling To Override Default For Basic HTML Elements */
@@ -71,7 +118,13 @@ button{
     font-family: 'Oswald', sans-serif;
     border: none;
     box-shadow: 2px 4px 5px #444;
+    cursor: pointer;
+    transition: 0.3s;
 }
+button:hover{
+    background: #444;
+}
+
 h1{
     font-size: 36px;
 }
@@ -81,6 +134,18 @@ textarea{
     color: #f0d43a;
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
+}
+
+figure{
+    width: 100%;
+    height: 40%;
+
+}
+
+img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 /* Reset style for HTML element on active to have no border*/
 input:focus,
