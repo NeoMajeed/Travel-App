@@ -38,23 +38,19 @@ app.listen(port, ()=>{
     console.log("server working on port: " + port);
 })
 
-// // Get route
-// app.get("/all", (req,res)=>{
-//     res.send(projectData);
-// })
-
 
 // Post route
 app.post("/add", async(req,res)=>{
     const city = req.body.city;
     projectData.city = city;
-    const date = req.body.start_date;
+    const depdate = req.body.depdate;
+    const retdate = req.body.retdate;
     const geodata = await geonames(city)
     if (geodata) {
         const lat = geodata.lat;
         const lng = geodata.lng;
         const country = geodata.countryName
-        await weatherbit(lat, lng, date);
+        await weatherbit(lat, lng, depdate, retdate);
         await pixabay(city, country);
         console.log(projectData);
         res.send(projectData);
@@ -86,19 +82,23 @@ async function geonames(city) {
 }
 
 //get route for weatherbit
-async function weatherbit(lat, lng, date) {
+async function weatherbit(lat, lng, depdate, retdate) {
     console.log(lat, lng);
-    start_date = "2022-11-11";
-    end_date = "2022-11-12";
-    const request = `${weatherbitApi}lat=${lat}&lon=${lng}&start_date=${start_date}&end_date=${end_date}&key=${process.env.weatherApiKey}` ;
+    const days = new Date(retdate).getDate() - new Date(depdate).getDate();
+    console.log(days);
+    const request = `${weatherbitApi}lat=${lat}&lon=${lng}&key=${process.env.weatherApiKey}`;
     console.log(request);
     const response = await fetch(request);
     try {
         const data = await response.json();
-        projectData.min = data.data[0].min_temp;
-        projectData.max = data.data[0].max_temp;
-        projectData.description = data.data[0].weather.description;
-        console.log(data.data[0].min_temp);
+        data.data.forEach(data => {
+            if (data.datetime == depdate){
+                projectData.min = data.min_temp;
+                projectData.max = data.max_temp;
+                projectData.date = data.datetime;
+                projectData.description = data.weather.description;               
+            }
+        });
     } catch (error) {
         console.log("error", error);
     }
@@ -111,24 +111,29 @@ async function pixabay(city, country) {
     const request = pixabayApi + process.env.pixabayApiKey + '&q=' + encodeURIComponent(city) + '&orientation=horizontal&image_type=photo';
     console.log(request);
     const response = await fetch(request);
-    const data = await response.json();
-    if (data.totalHits > 0) {
-        let hits = data.hits
-        console.log(hits);
-        let filterdhits = hits.filter(hit => hit.tags.includes(city) || hit.tags.includes("city"));
-        console.log(filterdhits);
-        filterdhits.sort((a,b) => b.views - a.views);
-        projectData.image = filterdhits[0].webformatURL;
-    }else {
-        const request = pixabayApi + process.env.pixabayApiKey + '&q=' + encodeURIComponent(country) + '&orientation=horizontal&image_type=photo';
-        console.log(request);
-        const response = await fetch(request);
+    try{
         const data = await response.json();
         if (data.totalHits > 0) {
             let hits = data.hits
-            projectData.image = hits[0].webformatURL;
-        }else{
-            projectData.image = 'https://cdn.pixabay.com/photo/2018/02/27/06/30/skyscrapers-3184798_960_720.jpg';
-        }
-    }   
+            console.log(hits);
+            let filterdhits = hits.filter(hit => hit.tags.includes(city) || hit.tags.includes("city"));
+            console.log(filterdhits);
+            filterdhits.sort((a,b) => b.views - a.views);
+            projectData.image = filterdhits[0].webformatURL;
+        }else {
+            const request = pixabayApi + process.env.pixabayApiKey + '&q=' + encodeURIComponent(country) + '&orientation=horizontal&image_type=photo';
+            console.log(request);
+            const response = await fetch(request);
+            const data = await response.json();
+            if (data.totalHits > 0) {
+                let hits = data.hits
+                projectData.image = hits[0].webformatURL;
+            }else{
+                projectData.image = 'https://cdn.pixabay.com/photo/2018/02/27/06/30/skyscrapers-3184798_960_720.jpg';
+            }
+        }  
+    } 
+    catch (error) {
+        console.log("error", error);
+    }
 }

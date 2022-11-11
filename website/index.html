@@ -2,35 +2,46 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Weather Journal</title>
+<title>NeoTravel </title>
 <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="loading"></div>
   <div class ="app">
     <div class = "front">
-      <div class ="holder headline">
-        Travel App
+      <div class ="headline">
+        NeoTravel
       </div>
-      <div>
+      <div class = "form">
         <label for="city">Trip To ...</label>
         <input type="text" id="city" placeholder="New York">
         <br>
-        <label for="date">Departing</label>
-        <input type="date" id="date" >
+        <div class="dep">
+          <label for="date">Departing</label>
+          <input type="date" id="depdate" >
+        </div>
+
+        <div class = "ret">
+          <label for="date">Returning</label>
+          <input type="date" id="retdate" >
+        </div>
+
       </div>
-      <div class ="holder feel">
+      <div>
         <button id="generate" type = "submit"> Submit </button>
       </div>
     </div>
 
     <div class="back">
 
-      <figure class="image hidden">
+      <figure class="image">
         <img src="" alt="">
       </figure>
       <div class="holder">
+        <p class="countdown"></p>
         <p class="Icity"></p>
+        <p class="Idate"></p>
         <p class="temp"></p>
         <p class="description"></p>
       </div>
