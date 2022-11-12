@@ -7,7 +7,7 @@ This project get the weather data for the city you want to go take the city name
 
 follow these steps:
 
-- Use ``git https://github.com/ubdo15/Travel-App``.
+- Use ``git https://github.com/neoMajeed/Travel-App``.
 - Run ``npm install --legacy-peer-deps`` to installs the dependencies required for the project.
 - Run ``npm run build-prod`` to build the project.
 - Run ``npm run start `` to start the server.
