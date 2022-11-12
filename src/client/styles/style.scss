@@ -208,6 +208,7 @@ button:focus {
 
 @media screen and (max-width: 600px) {
     .app{
+        margin: 15px;
         width: 90%;
         height: 90%;
     }
@@ -216,9 +217,13 @@ button:focus {
     }
     .holder{
         height: 50%;
+        font-size: x-large;
     }
     .form{
         font-size: xx-large;
+    }
+    button{
+        width: 250px;
     }
     input{
         width: 100%;

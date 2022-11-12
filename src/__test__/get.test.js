@@ -1,11 +1,15 @@
-const app = require('../server/index.js');
-const req = require('supertest');
+const request = require('supertest')
+const app = require('../server/index')
 
-//testing
-describe('Testing the get route', () => {
-    test('Testing the get route', async() => {
-        const response = await req(app).get('/'); // error here 
-        expect(response.status).toBe(200);
-
-    });
+describe('Post Endpoints', () => {
+  jest.useFakeTimers();
+  it('should create a new post', async () => {
+    const res = await request(app)
+      .post('/add')
+      .send({
+        city: "London",
+        depdate: "2022-11-19",
+      })
+    expect(res.statusCode).toEqual(200)
+  })
 })

@@ -1,7 +1,5 @@
 
 /* Global Variables */
-const apiKey = "ca7ac655b2e15c8d34736322028a2e6f";
-const openWeather = "https://api.openweathermap.org/data/2.5/weather?zip=";
 const countdown = document.querySelector(".countdown");
 const temp = document.querySelector(".temp");
 const description = document.querySelector(".description");
