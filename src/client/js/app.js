@@ -23,6 +23,7 @@ let _dateDiff = "";
 let d = new Date();
 let today = dateFormat(d)
 
+// update the DOM take an object as a parameter
 function updateUI(data){
     _dateDiff = dateDiff(new Date(data.date), new Date(today));
     img.src = data.image; 
@@ -34,6 +35,7 @@ function updateUI(data){
     app.classList.add("flip")
 }
 
+// change the data Format from mm-dd-yyyy to yyyy-mm-dd
 function dateFormat(data){
     let date = new Date(data);
     let month = "" + (date.getMonth() + 1);
@@ -51,34 +53,15 @@ function dateFormat(data){
 const minDate = dateFormat(d);
 const maxDate = dateFormat(d.setDate(d.getDate() + 15));
 
-window.addEventListener("load", function(){
-    console.log("window loaded");
-    depdate.min = minDate;
-    depdate.max = maxDate;
-    if(this.localStorage.getItem("data") != null){
-        console.log("local storage is not empty");
-        data = JSON.parse(localStorage.getItem("data"));
-        updateUI(data);
-    }else{
-        console.log("local storage is empty");
-    }
-});
 
-
-depdate.addEventListener("input", function(){
-  ret.classList.add("active")
-  const start_date = this.value;
-  retdate.min = start_date;
-  retdate.max = maxDate;
-  console.log(start_date);
-});
-
+// calculate the difference between two dates
 function dateDiff(date1, date2){
   const diffTime = Math.abs(date2 - date1);
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return diffDays;
 }
 
+// Loading animation 
 function loading(_switch){
   if(_switch == "on" || _switch == true){
     _loading.classList.add("loadingOn");
@@ -89,7 +72,7 @@ function loading(_switch){
   }
 }
 
-//fetch data
+//fetch data function
 const postData = async (url = "", data = {})=>{
     const response = await fetch(url,{
       method: 'POST',
@@ -109,10 +92,31 @@ const postData = async (url = "", data = {})=>{
     }
 }
 
-// Click Events 
+// Laod function start on load event
+function load(){
+    console.log("window loaded");
+    depdate.min = minDate;
+    depdate.max = maxDate;
+    if(localStorage.getItem("data") != null){
+        console.log("local storage is not empty");
+        const data = JSON.parse(localStorage.getItem("data"));
+        updateUI(data);
+    }else{
+        console.log("local storage is empty");
+    }
+}
 
-//Post Event
-generate.addEventListener("click", async()=>{
+// function to set the depart date 
+function depdateClick(){
+  ret.classList.add("active")
+  const start_date = this.value;
+  retdate.min = start_date;
+  retdate.max = maxDate;
+  console.log(start_date);
+}
+
+// Generate function start on click event
+async function generateClick(){
   if(city.value == ''){
     alert("Please Enter a city name")
   } else if (depdate.value == '' || depdate.value < today || retdate.value == '' || retdate.value < today || retdate.value < depdate.value){
@@ -121,7 +125,7 @@ generate.addEventListener("click", async()=>{
     console.log(depdate.value);
     // send data to the server
     loading("on");
-    const object = await postData("/add", {city:city.value, depdate: depdate.value, retdate: retdate.value});
+    const object = await postData("http://localhost:8082/add", {city:city.value, depdate: depdate.value});
     loading("off");
     if(object){
       localStorage.setItem("data", JSON.stringify(object));
@@ -131,17 +135,19 @@ generate.addEventListener("click", async()=>{
     }else{
       alert("something went wrong, please try again with another city name")
     }
-
   }
-})
+}
 
-// Back Event
-rmv.addEventListener("click", ()=>{
+//function back to front page and remove the trip
+function backClick(){
   localStorage.removeItem("data");
   app.classList.remove("flip");
   retdate.value = "";
   ret.classList.remove("active");
-})
+}
+
+
+export{load, depdateClick, generateClick, backClick, dateFormat, dateDiff}
 
 
 

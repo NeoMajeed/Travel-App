@@ -8,6 +8,7 @@ body{
     background: #faebd7;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
@@ -29,6 +30,7 @@ body{
     height: 60%;
     margin: auto;
     transition-duration: 0.6s;
+    transition-property: transform;
     transition-timing-function: ease-in-out;
     transform-style: preserve-3d;
 }
@@ -73,11 +75,6 @@ body{
     left: 0;
     visibility: visible !important;
 }
-
-.entry{
-    background: rgba(59, 74, 107, .4);
-}
-
 
 .headline {
     align-self: center;
@@ -140,13 +137,6 @@ button:hover{
 
 h1{
     font-size: 36px;
-}
-
-textarea{
-    background:#22b2da;
-    color: #f0d43a;
-    font-size: 20px;
-    font-family: 'Oswald', sans-serif;
 }
 
 figure{
@@ -263,4 +253,50 @@ button:focus {
         height: 58px;
         opacity: 0;
     }
+}
+
+.footer {
+    margin: 10px;
+    grid-area: ft;
+    background-color: antiquewhite;
+    text-align: center;
+    margin-top: 30px;
+    border-top: #333 solid 2px;
+    padding: 10px;
+
+    a {
+        text-decoration: none;
+        color: #333;
+    }
+
+    p {
+        margin: 0;
+        color: #333;
+    }
+}
+
+
+.social-icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+}
+
+.twitter,
+.linkedin,
+.github {
+    transition: color 0.2s;
+}
+
+.twitter:hover {
+    color: rgb(29 155 240);
+}
+
+.linkedin:hover {
+    color: rgb(44 155 255);
+}
+
+.github:hover {
+    color: rgb(77, 77, 77)
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>NeoTravel </title>
+    <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/style.css">
+  </head>
+  <body>
+    <div class="loading"></div>
+    <div class ="app">
+      <div class = "front">
+        <div class ="headline">
+          NeoTravel
+        </div>
+        <div class = "form">
+          <label for="city">Trip To ...</label>
+          <input type="text" id="city" placeholder="New York">
+          <br>
+          <div class="dep">
+            <label for="date">Departing</label>
+            <input type="date" id="depdate" >
+          </div>
+
+          <div class = "ret">
+            <label for="date">Returning</label>
+            <input type="date" id="retdate" >
+          </div>
+
+        </div>
+        <div>
+          <button id="generate" type = "submit"> Submit </button>
+        </div>
+      </div>
+
+      <div class="back">
+
+        <figure class="image">
+          <img src="" alt="">
+        </figure>
+        <div class="holder">
+          <p class="countdown"></p>
+          <p class="Icity"></p>
+          <p class="Idate"></p>
+          <p class="temp"></p>
+          <p class="description"></p>
+        </div>
+        <div class ="rmv">
+          <button type = "submit"> Remove Trip </button>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="footer">
+        <div class="social-icon">
+          <a href="https://github.com/ubdo15" target="_blank">
+            <ion-icon class="github" size="large" name="logo-github"></ion-icon>
+          </a>
+          <a href="https://twitter.com/NeoMajeed" target="_blank">
+            <ion-icon class="twitter" size="large" name="logo-twitter"></ion-icon></i>
+          </a>
+          <a href="https://linkedin.com/in/abdulmajeed-alfheimani-b640071a7/" target="_blank">
+            <ion-icon class="linkedin" size="large" name="logo-linkedin"></ion-icon></i>
+          </a>
+        </div>
+        <P>©Copyright 2022 Abdulmajeed</P>
+      </div>
+    </footer>
+
+  </body>
+  <script src="../js/app.js" type="text/javascript"></script>
+  <script>
+    // Check that service workers are supported
+    if ('serviceWorker' in navigator) {
+      // Use the window load event to keep the page load performant
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js');
+      });
+    }
+  </script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</html>

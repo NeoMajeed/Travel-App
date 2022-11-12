@@ -3,7 +3,7 @@ env.config();
 const fetch = require('node-fetch');
 // Setup empty JS object to act as endpoint for all routes
 let projectData = {};
-const port = 8080;
+const port = 8082;
 
 //baseApis
 const pixabayApi = 'https://pixabay.com/api/?key=';
@@ -26,16 +26,20 @@ app.use(bodyParser.json());
 
 // Cors for cross origin allowance
 const cors = require("cors");
-const { urlencoded } = require('body-parser');
 app.use(cors());
 
 // Initialize the main project folder
-app.use(express.static('website'));
+app.use(express.static('dist'));
 
 
 // Setup Server
 app.listen(port, ()=>{
     console.log("server working on port: " + port);
+})
+
+ app.get('/', function (req, res) {
+     res.sendFile('dist/index.html')
+//     res.sendFile('src/client/views/index.html')
 })
 
 
@@ -44,13 +48,12 @@ app.post("/add", async(req,res)=>{
     const city = req.body.city;
     projectData.city = city;
     const depdate = req.body.depdate;
-    const retdate = req.body.retdate;
     const geodata = await geonames(city)
     if (geodata) {
         const lat = geodata.lat;
         const lng = geodata.lng;
         const country = geodata.countryName
-        await weatherbit(lat, lng, depdate, retdate);
+        await weatherbit(lat, lng, depdate);
         await pixabay(city, country);
         console.log(projectData);
         res.send(projectData);
@@ -59,7 +62,7 @@ app.post("/add", async(req,res)=>{
     }
 })
 
-//get route for geonames
+// geonames
 async function geonames(city) {
     console.log(city);
     
@@ -81,11 +84,9 @@ async function geonames(city) {
     }
 }
 
-//get route for weatherbit
-async function weatherbit(lat, lng, depdate, retdate) {
+// weatherbit
+async function weatherbit(lat, lng, depdate) {
     console.log(lat, lng);
-    const days = new Date(retdate).getDate() - new Date(depdate).getDate();
-    console.log(days);
     const request = `${weatherbitApi}lat=${lat}&lon=${lng}&key=${process.env.weatherApiKey}`;
     console.log(request);
     const response = await fetch(request);
@@ -106,7 +107,7 @@ async function weatherbit(lat, lng, depdate, retdate) {
 
 
 
-//get route for pixabay
+// pixabay
 async function pixabay(city, country) {
     const request = pixabayApi + process.env.pixabayApiKey + '&q=' + encodeURIComponent(city) + '&orientation=horizontal&image_type=photo';
     console.log(request);
